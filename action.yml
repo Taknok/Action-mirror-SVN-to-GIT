@@ -1,0 +1,12 @@
+# action.yml
+name: "Mirror SVN to GIT"
+description: "Mirror a SVN repository to a GIT repository"
+inputs:
+  svn-url:
+    description: "The URL of the SVN repository to mirror"
+    required: true
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.svn-url }}
