@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 SVN_URL="$1"
 
 ls -la /github/workspace
@@ -9,7 +10,7 @@ ls -la /github/workspace
 
 if [ "$SVN_INIT" = false ]
 then
-  svn2git "$SVN_URL"
+  GIT_TRACE=2 GIT_CURL_VERBOSE=2 GIT_TRACE_PERFORMANCE=2 GIT_TRACE_PACK_ACCESS=2 GIT_TRACE_PACKET=2 GIT_TRACE_PACKFILE=2 GIT_TRACE_SETUP=2 GIT_TRACE_SHALLOW=2 svn2git "$SVN_URL"
 
   # Saving the config
   mkdir -p .svn2git
