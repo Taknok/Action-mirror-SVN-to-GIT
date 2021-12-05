@@ -2,6 +2,7 @@
 set -e
 
 SVN_URL="$1"
+AC_VERBOSE="$2"
 
 ls -la /github/workspace
 
