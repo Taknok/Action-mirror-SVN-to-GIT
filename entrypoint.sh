@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 SVN_URL="$1"
 
