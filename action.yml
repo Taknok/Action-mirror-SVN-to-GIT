@@ -5,8 +5,12 @@ inputs:
   svn-url:
     description: "The URL of the SVN repository to mirror"
     required: true
+  verbose:
+    description: "Print all logs"
+    default: false
 runs:
   using: "docker"
   image: "Dockerfile"
   args:
     - ${{ inputs.svn-url }}
+    - $ {{ inputs.verbose }}
