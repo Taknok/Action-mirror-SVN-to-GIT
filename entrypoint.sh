@@ -11,7 +11,7 @@ ls -la /github/workspace
 
 if [ "$SVN_INIT" = false ]
 then
-  svn2git "$SVN_URL"
+  svn2git "$SVN_URL" > /dev/null
 
   # Saving the config
   mkdir -p .svn2git
