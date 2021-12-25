@@ -12,7 +12,7 @@ if [ "$SVN_INIT" = false ]
 then
   set +e
   svn2git "$SVN_URL" > /dev/null
-  if ! $?
+  if [[ $? -ne 0 ]]
   then
     echo "svn2git failed..."
     if [[ $RETRY -ge 0 ]]; then
@@ -22,7 +22,7 @@ then
         echo "Retry $try"
         svn2git --rebase
         result=$?
-        if [[ $result ]]; then
+        if [[ $result -eq 0 ]]; then
           #success
           break
         fi
