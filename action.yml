@@ -5,8 +5,16 @@ inputs:
   svn-url:
     description: "The URL of the SVN repository to mirror"
     required: true
+  verbose:
+    description: "Print all logs"
+    default: false
+  retry:
+    description: "Number of time to retry if failed in snv2git"
+    default: 3
 runs:
   using: "docker"
   image: "Dockerfile"
   args:
     - ${{ inputs.svn-url }}
+    - $ {{ inputs.verbose }}
+    - $ {{ inputs.retry }}
