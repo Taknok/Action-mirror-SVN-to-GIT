@@ -16,5 +16,5 @@ runs:
   image: "Dockerfile"
   args:
     - ${{ inputs.svn-url }}
-    - $ {{ inputs.verbose }}
-    - $ {{ inputs.retry }}
+    - ${{ inputs.verbose }}
+    - ${{ inputs.retry }}

@@ -28,6 +28,10 @@ then
         fi
         echo "svn2git --rebase failed..."
       done
+      if [[ ! $result ]]; then
+        # No retry succeeded
+        exit 1
+      fi
     fi
   fi
 
