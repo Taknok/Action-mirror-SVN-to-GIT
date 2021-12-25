@@ -11,7 +11,11 @@ RETRY="$3"
 if [ "$SVN_INIT" = false ]
 then
   set +e
-  svn2git "$SVN_URL" > /dev/null
+  if [[ $AC_VERBOSE -eq "true" ]]; then
+    svn2git "$SVN_URL"
+  else
+    svn2git "$SVN_URL" > /dev/null
+  fi
   if [[ $? -ne 0 ]]
   then
     echo "svn2git failed..."
