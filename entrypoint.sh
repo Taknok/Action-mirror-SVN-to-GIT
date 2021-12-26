@@ -14,6 +14,8 @@ whoami
 echo "--------"
 echo $HOME
 echo "--------"
+echo git config -l --show-origin
+echo git config --global -l --show-origin
 
 # Check if action already init
 (test -f .svn2git/svn-config && SVN_INIT=true) || SVN_INIT=false
