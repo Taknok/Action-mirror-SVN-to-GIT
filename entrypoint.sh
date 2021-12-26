@@ -5,8 +5,15 @@ SVN_URL="$1"
 AC_VERBOSE="$2"
 RETRY="$3"
 
+echo "--------"
 git config --global -l
+echo "--------"
 git config -l
+echo "--------"
+whoami
+echo "--------"
+echo $HOME
+echo "--------"
 
 # Check if action already init
 (test -f .svn2git/svn-config && SVN_INIT=true) || SVN_INIT=false
