@@ -5,17 +5,9 @@ SVN_URL="$1"
 AC_VERBOSE="$2"
 RETRY="$3"
 
-echo "--------"
-git config --global -l
-echo "--------"
-git config -l
-echo "--------"
-whoami
-echo "--------"
-echo $HOME
-echo "--------"
-echo git config -l --show-origin
-echo git config --global -l --show-origin
+git config --global gc.auto 0 && \
+git config --global user.name "github-actions[bot]" && \
+git config --global user.email "4815162342+github-actions[bot]@users.noreply.github.com"
 
 # Check if action already init
 (test -f .svn2git/svn-config && SVN_INIT=true) || SVN_INIT=false
