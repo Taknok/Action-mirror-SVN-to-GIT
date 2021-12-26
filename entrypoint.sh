@@ -18,6 +18,7 @@ git config --global user.email "4815162342+github-actions[bot]@users.noreply.git
 if [ "$SVN_INIT" = false ]
 then
   # first run
+  echo "First run, initializing project"
   set +e
   # fetch and create everything except for master
   if [[ $AC_VERBOSE -eq "true" ]]; then
@@ -25,6 +26,8 @@ then
   else
     svn2git "$SVN_URL" > /dev/null
   fi
+
+  # if fail, retry
   if [[ $? -ne 0 ]]
   then
     echo "svn2git failed..."
@@ -51,6 +54,7 @@ then
   set -e
   # rebase into master
   svn2git --rebase
+
   # Saving the config
   mkdir -p .svn2git
   git config --get-regexp svn-remote.svn > .svn2git/svn-config
@@ -58,6 +62,7 @@ then
   git commit -m "Save svn config to .svn2git/svn-config"
 else
   # already initialized
+  echo "Already initialized, loading configuration"
   # Loading config
   cat .svn2git/svn-config | while read line; do git config $line; done
   # fetch and create everything except for master
