@@ -73,7 +73,7 @@ else
   echo "Already initialized, loading configuration"
   # Loading config
   cat .svn2git/svn-config | while read line; do git config $line; done
-  cp -r .svn2git/svn
+  cp -r .svn2git/svn .git/
   # fetch and create everything except for master
   svn2git --rebase
   # rebase into master
