@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 SVN_URL="$1"
 AC_VERBOSE="$2"
@@ -14,6 +15,14 @@ git config --global user.email "4815162342+github-actions[bot]@users.noreply.git
 # 2 svn2git have to be run, because first convert svn2git config from v1 to v2 
 # but do not rebase into master. Once migration is done, rebase into master
 # is done
+
+save_svn_config () {
+  mkdir -p .svn2git
+  git config --get-regexp svn-remote.svn > .svn2git/svn-config
+  cp -r .git/svn .svn2git/
+  git add .svn2git/
+  git commit -m "Save svn config to .svn2git/svn-config"
+}
 
 if [ "$SVN_INIT" = false ]
 then
@@ -48,6 +57,8 @@ then
         # No retry succeeded
         exit 1
       fi
+    else
+      exit 1
     fi
   fi
 
@@ -56,19 +67,19 @@ then
   svn2git --rebase
 
   # Saving the config
-  mkdir -p .svn2git
-  git config --get-regexp svn-remote.svn > .svn2git/svn-config
-  git add .svn2git/
-  git commit -m "Save svn config to .svn2git/svn-config"
+  save_svn_config
 else
   # already initialized
   echo "Already initialized, loading configuration"
   # Loading config
   cat .svn2git/svn-config | while read line; do git config $line; done
+  cp -r .svn2git/svn
   # fetch and create everything except for master
   svn2git --rebase
   # rebase into master
   svn2git --rebase
+  # save config
+  save_svn_config
 fi
 
 # Optimizing repo
