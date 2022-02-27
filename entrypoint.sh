@@ -24,17 +24,21 @@ save_svn_config () {
   git commit -m "Save svn config to .svn2git/svn-config"
 }
 
+silent () {
+  if [[ $AC_VERBOSE -eq "true" ]]; then
+    $@
+  else
+    $@ > /dev/null
+  fi
+}
+
 if [ "$SVN_INIT" = false ]
 then
   # first run
   echo "First run, initializing project"
   set +e
   # fetch and create everything except for master
-  if [[ $AC_VERBOSE -eq "true" ]]; then
-    svn2git "$SVN_URL"
-  else
-    svn2git "$SVN_URL" > /dev/null
-  fi
+  silent svn2git "$SVN_URL"
 
   # if fail, retry
   if [[ $? -ne 0 ]]
@@ -45,7 +49,7 @@ then
       while [[ $try -lt $RETRY ]]; do
         try=$(($try+1))
         echo "Retry $try"
-        svn2git --rebase
+        silent svn2git --rebase
         result=$?
         if [[ $result -eq 0 ]]; then
           #success
@@ -64,7 +68,7 @@ then
 
   set -e
   # rebase into master
-  svn2git --rebase
+  silent svn2git --rebase
 
   # Saving the config
   save_svn_config
@@ -75,9 +79,9 @@ else
   cat .svn2git/svn-config | while read line; do git config $line; done
   cp -r .svn2git/svn .git/
   # fetch and create everything except for master
-  svn2git --rebase
+  silent svn2git --rebase
   # rebase into master
-  svn2git --rebase
+  silent svn2git --rebase
   # save config
   save_svn_config
 fi
