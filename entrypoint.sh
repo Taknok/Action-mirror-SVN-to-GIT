@@ -25,7 +25,7 @@ save_svn_config () {
 }
 
 silent () {
-  if [[ $AC_VERBOSE -eq "true" ]]; then
+  if [[ "$AC_VERBOSE" == "true" ]]; then
     $@
   else
     $@ > /dev/null
