@@ -25,6 +25,11 @@ save_svn_config () {
   git commit -m "Save svn config to .svn2git/svn-config"
 }
 
+load_svn_config () {
+  cat .svn2git/svn-config | while read line; do git config $line; done
+  cp -r .svn2git/svn .git/
+}
+
 silent () {
   if [[ "$AC_VERBOSE" == "true" ]]; then
     $@
@@ -77,8 +82,8 @@ else
   # already initialized
   echo "Already initialized, loading configuration"
   # Loading config
-  cat .svn2git/svn-config | while read line; do git config $line; done
-  cp -r .svn2git/svn .git/
+  load_svn_config
+
   # fetch and create everything except for master
   silent svn2git --rebase
   # rebase into master
