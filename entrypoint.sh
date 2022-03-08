@@ -17,6 +17,7 @@ git config --global user.email "4815162342+github-actions[bot]@users.noreply.git
 # is done
 
 save_svn_config () {
+  [ -d .svn2git/ ] && rm -rf .svn2git/
   mkdir -p .svn2git
   git config --get-regexp svn-remote.svn > .svn2git/svn-config
   cp -r .git/svn .svn2git/
