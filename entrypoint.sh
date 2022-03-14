@@ -32,43 +32,17 @@ silent () {
   fi
 }
 
+clone() {
+  git svn "$SVN_URL" --no-metadata --stdlayout --prefix='svn/'
+}
+
 if [ "$SVN_INIT" = false ]
 then
   # first run
   echo "First run, initializing project"
   set +e
   # fetch and create everything except for master
-  silent svn2git "$SVN_URL"
-
-  # if fail, retry
-  if [[ $? -ne 0 ]]
-  then
-    echo "svn2git failed..."
-    if [[ $RETRY -ge 0 ]]; then
-      try=0
-      while [[ $try -lt $RETRY ]]; do
-        try=$(($try+1))
-        echo "Retry $try"
-        silent svn2git --rebase
-        result=$?
-        if [[ $result -eq 0 ]]; then
-          #success
-          break
-        fi
-        echo "svn2git --rebase failed..."
-      done
-      if [[ ! $result ]]; then
-        # No retry succeeded
-        exit 1
-      fi
-    else
-      exit 1
-    fi
-  fi
-
-  set -e
-  # rebase into master
-  silent svn2git --rebase
+  silent clone
 
   # Saving the config
   save_svn_config
@@ -79,14 +53,9 @@ else
   cat .svn2git/svn-config | while read line; do git config $line; done
   cp -r .svn2git/svn .git/
   # fetch and create everything except for master
-  silent svn2git --rebase
-  # rebase into master
-  silent svn2git --rebase
-  # save config
-  save_svn_config
 fi
 
 # Optimizing repo
 git gc --auto
 
-git push --mirror
+#git push --mirror
