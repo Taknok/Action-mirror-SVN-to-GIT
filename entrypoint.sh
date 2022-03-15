@@ -33,7 +33,7 @@ silent () {
 }
 
 clone() {
-  git svn "$SVN_URL" --no-metadata --stdlayout --prefix='svn/'
+  git svn init "$SVN_URL" --no-metadata --stdlayout --prefix='svn/'
 }
 
 if [ "$SVN_INIT" = false ]
