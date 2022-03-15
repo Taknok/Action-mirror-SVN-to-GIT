@@ -48,6 +48,7 @@ silent () {
 
 clone() {
   git svn init "$SVN_URL" --no-metadata --stdlayout --prefix='svn/'
+  git svn fetch
 }
 
 if [ "$SVN_INIT" = false ]
