@@ -30,4 +30,4 @@ svn2git --rebase -m
 # Optimizing repo
 git gc --auto
 
-git push
+git push --all
