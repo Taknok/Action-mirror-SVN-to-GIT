@@ -31,3 +31,4 @@ svn2git --rebase -m
 git gc --auto
 
 git push --all
+git push --tags
