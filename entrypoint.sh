@@ -24,8 +24,8 @@ git config --global user.name "github-actions[bot]"
 git config --global user.email "4815162342+github-actions[bot]@users.noreply.github.com"
 
 git svn init "$SVN_URL" --stdlayout --prefix='svn/'
-git svn fetch
-svn2git --rebase -m
+git svn fetch > /dev/null 2>&1
+svn2git --rebase -m -v
 
 # Optimizing repo
 git gc --auto
